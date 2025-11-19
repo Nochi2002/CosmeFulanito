@@ -203,6 +203,7 @@ def confirmar_compra(producto_id):
         )
         
         db.session.add(nuevo_pedido)
+        db.session.commit()
     
     except Exception as e:
         print(f"Error al comprar: {e}")
