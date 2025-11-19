@@ -65,10 +65,13 @@ def callback():
         user = User.query.filter_by(email=email).first()
         
         if user:
+            # ¡Lo encontramos por email! Actualizamos su ID y Foto para arreglar el registro
             user.google_id = google_id
+            user.picture = id_info.get("picture")
+            user.name = id_info.get("name")
             db.session.commit()
         else:
-            # 3. Si no existe de ninguna forma, lo creamos
+            # 3. No existe por ID ni por Email -> Lo creamos desde cero
             user = User(
                 google_id=google_id,
                 email=email,
