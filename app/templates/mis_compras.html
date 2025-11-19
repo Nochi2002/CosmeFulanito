@@ -1,0 +1,34 @@
+{% extends "detalles.html" %}
+
+{% block content %}
+    <h2 class="mb-4">Mis Compras</h2>
+
+    {% if pedidos %}
+        <div class="list-group">
+            {% for pedido in pedidos %}
+                <div class="list-group-item p-3 mb-2 border-0 shadow-sm">
+                    <div class="row align-items-center">
+                        <div class="col-2 text-center">
+                            <img src="{{ pedido.producto.imagen_url }}" class="img-fluid rounded" style="max-height: 60px;">
+                        </div>
+                        <div class="col-6">
+                            <h6 class="mb-0 text-primary">{{ pedido.fecha_pedido.strftime('%d/%m/%Y') }}</h6>
+                            <p class="mb-0 fw-bold">{{ pedido.producto.nombre }}</p>
+                            <small class="text-muted">Vendedor: {{ pedido.producto.vendedor.name }}</small>
+                        </div>
+                        <div class="col-2">
+                             <span class="badge {% if pedido.estado == 'enviado' %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                                {{ pedido.estado }}
+                             </span>
+                        </div>
+                        <div class="col-2 text-end">
+                            <a href="{{ url_for('productos.detalle_producto', producto_id=pedido.producto.id) }}" class="btn btn-sm btn-primary">Ver</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">No hiciste compras todavía. <a href="{{ url_for('productos.gallery') }}">Ir al catálogo</a></div>
+    {% endif %}
+{% endblock %}

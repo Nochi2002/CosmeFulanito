@@ -1,0 +1,42 @@
+{% extends "detalles.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card-simple p-4">
+            <h2 class="mb-4">Publicar Producto</h2>
+            
+            {% if error %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endif %}
+            {% if success %}
+                <div class="alert alert-success">¡Publicado con éxito!</div>
+            {% endif %}
+
+            <form action="{{ url_for('productos.upload_file') }}" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label class="form-label">Nombre del producto</label>
+                    <input type="text" name="nombre" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Precio ($)</label>
+                    <input type="number" name="precio" step="0.01" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Stock</label>
+                    <input type="number" name="stock" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Descripción</label>
+                    <textarea name="descripcion" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Foto del producto</label>
+                    <input type="file" name="file" class="form-control" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn-ml w-100">Publicar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

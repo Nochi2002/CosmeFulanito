@@ -1,0 +1,9 @@
+Flask
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+python-dotenv
+requests
+sqlalchemy
+flask_sqlalchemy
+boto3

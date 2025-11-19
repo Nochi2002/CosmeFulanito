@@ -1,0 +1,14 @@
+{% extends "detalles.html" %}
+
+{% block content %}
+<div class="text-center mt-5">
+    <h1>Mercado Libre</h1>
+    <p class="lead">Compra o vende productos</p>
+    
+    {% if not session.get('user_id') %}
+        <a href="{{ url_for('autenticacion.login') }}" class="btn-ml mt-3">Iniciar Sesión con Google</a>
+    {% else %}
+        <a href="{{ url_for('productos.gallery') }}" class="btn-ml mt-3">Ver Productos</a>
+    {% endif %}
+</div>
+{% endblock %}

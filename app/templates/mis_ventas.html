@@ -1,0 +1,40 @@
+{% extends "detalles.html" %}
+
+{% block content %}
+    <h2 class="mb-4">Mis Ventas</h2>
+
+    {% if ventas %}
+        <div class="list-group">
+            {% for venta in ventas %}
+                <div class="list-group-item p-3 mb-2 border-0 shadow-sm">
+                    <div class="row align-items-center">
+                        <div class="col-2">
+                            <img src="{{ venta.producto.imagen_url }}" class="img-fluid rounded" style="max-height: 60px;">
+                        </div>
+                        <div class="col-5">
+                            <p class="mb-0 fw-bold">{{ venta.producto.nombre }}</p>
+                            <small>Comprador: {{ venta.comprador.name }}</small><br>
+                            <small class="text-muted">Total: ${{ venta.producto.precio }}</small>
+                        </div>
+                        <div class="col-2">
+                             <span class="badge {% if venta.estado == 'enviado' %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                                {{ venta.estado }}
+                             </span>
+                        </div>
+                        <div class="col-3 text-end">
+                            {% if venta.estado == 'pendiente' %}
+                                <form action="{{ url_for('autenticacion.despachar_pedido', pedido_id=venta.id) }}" method="POST">
+                                    <button type="submit" class="btn btn-sm btn-ml">Despachar</button>
+                                </form>
+                            {% else %}
+                                <span class="text-success small">✔ Enviado</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">Aún no tienes ventas.</div>
+    {% endif %}
+{% endblock %}

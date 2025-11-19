@@ -1,0 +1,44 @@
+{% extends "detalles.html" %}
+
+{% block content %}
+    <div class="mb-3">
+        {% if termino_busqueda %}
+            <h3>Resultados para "{{ termino_busqueda }}"</h3>
+            <a href="{{ url_for('productos.gallery') }}" class="text-decoration-none">Ver todos</a>
+        {% else %}
+            <h3>Lista de productos</h3>
+        {% endif %}
+    </div>
+
+    {% if productos %}
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+            {% for producto in productos %}
+                <div class="col">
+                    <div class="card-simple">
+                        <a href="{{ url_for('productos.detalle_producto', producto_id=producto.id) }}" style="text-decoration: none; color: inherit;">
+                            <img src="{{ producto.imagen_url }}" class="card-img-top" alt="{{ producto.nombre }}">
+                            <div class="card-body p-0">
+                                <h5 class="precio">$ {{ "%.0f"|format(producto.precio) }}</h5>
+                                <p class="text-muted small mb-1">{{ producto.nombre }}</p>
+                                {% if producto.stock == 0 %}
+                                    <span class="badge bg-secondary">Agotado</span>
+                                {% endif %}
+                            </div>
+                        </a>
+
+                        {% if session.get('user_id') == producto.vendedor_id %}
+                            <div class="mt-2 text-center border-top pt-2">
+                                <a href="{{ url_for('productos.modificar_producto', producto_id=producto.id) }}" class="btn btn-sm btn-link">Editar</a>
+                                <form action="{{ url_for('productos.eliminar_producto', producto_id=producto.id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn-rojo" style="font-size: 0.8em; border:none;">Eliminar</button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning">No encontramos publicaciones.</div>
+    {% endif %}
+{% endblock %}

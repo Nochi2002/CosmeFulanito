@@ -1,0 +1,102 @@
+/* Fijate si los colores estan bien, si queres modificalo pero avisame al discord*/
+:root {
+    --amarillo-ml: #fff159;
+    --azul-ml: #3483fa;
+    --gris-fondo: #ebebeb;
+    --color-texto: #333;
+}
+
+body {
+    background-color: var(--gris-fondo);
+    font-family: Arial, sans-serif;
+    color: var(--color-texto);
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar-ml {
+    background-color: var(--amarillo-ml);
+    padding: 10px 0;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.4rem;
+    color: #2d3277 !important;
+    margin-right: 20px;
+}
+
+.nav-link {
+    color: #333 !important;
+    font-size: 0.95rem;
+}
+
+.main-container {
+    flex: 1;
+    padding: 20px 0;
+}
+
+.card-simple {
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    padding: 15px;
+    height: 100%;
+    transition: box-shadow 0.2s;
+}
+
+.card-simple:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+}
+
+.precio {
+    font-size: 22px;
+    font-weight: normal;
+    color: #333;
+}
+
+.btn-ml {
+    background-color: var(--azul-ml);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn-ml:hover {
+    background-color: #2968c8;
+    color: white;
+}
+
+.btn-rojo {
+    color: #dc3545;
+    background: none;
+    border: 1px solid #dc3545;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+footer {
+    background-color: white;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    font-size: 0.8rem;
+    color: #999;
+}
