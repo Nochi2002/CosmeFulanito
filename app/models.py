@@ -5,7 +5,6 @@ db = SQLAlchemy()
 
 # MODELO DE USUARIO
 class User(db.Model):
-    """ Tabla para guardar la información de los usuarios (Compradores y Vendedores). """
     __tablename__ = 'usuarios'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -20,7 +19,6 @@ class User(db.Model):
 
 # MODELO DE PRODUCTO
 class Producto(db.Model):
-    """ Tabla para guardar los productos publicados por los vendedores. """
     __tablename__ = 'productos'
     
     id = db.Column(db.Integer, primary_key=True)
