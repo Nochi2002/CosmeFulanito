@@ -13,7 +13,10 @@ class User(db.Model):
     name = db.Column(db.String(100))
     picture = db.Column(db.String(200))
     
+    # Productos que vende este usuario
     productos = db.relationship("Producto", backref="vendedor", lazy=True)
+    
+    # Pedidos que hizo este usuario
     pedidos = db.relationship("Pedido", backref="comprador", lazy=True)
 
 
@@ -30,26 +33,24 @@ class Producto(db.Model):
     imagen_url = db.Column(db.String(300), nullable=False)
     fecha_publicacion = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     
-    # Clave foránea: Vincula el producto con el usuario que lo creó.
+    # Clave foránea
     vendedor_id = db.Column(db.Integer, db.ForeignKey("usuarios.id"), nullable=False)
-    
-    # Relación con los pedidos que incluyen este producto.
-    pedidos_rel = db.relationship('Pedido', backref='producto_vendido')
+
 
 
 # MODELO DE PEDIDO
 class Pedido(db.Model):
-    """ Tabla para registrar las compras realizadas. """
     __tablename__ = 'pedidos'
     
     id = db.Column(db.Integer, primary_key=True)
     
-    # Quién compró
+    # Clave foránea
     comprador_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
-    # Qué compró
     producto_id = db.Column(db.Integer, db.ForeignKey('productos.id'), nullable=False)
     
     cantidad = db.Column(db.Integer, nullable=False, default=1)
     estado = db.Column(db.String(50), nullable=False, default='pendiente')
     fecha_pedido = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    producto = db.relationship('Producto', backref='ordenes_de_compra')
+
+
+    producto = db.relationship('Producto', backref='pedidos_rel')
