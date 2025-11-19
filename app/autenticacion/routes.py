@@ -38,14 +38,14 @@ def login():
     session["state"] = state
     return redirect(authorization_url)
 
-@autenticacion_bp.route("/callback") 
+@autenticacion_bp.route("/callback")
 def callback():
     if request.args.get("state") != session.get("state"):
-        return render_template("error.html", message="El parámetro 'state' no coincide")
+        return render_template("error.html", message="Error de seguridad (state mismatch)")
 
     flow.fetch_token(authorization_response=request.url)
     credentials = flow.credentials
-
+    
     try:
         id_info = id_token.verify_oauth2_token(
             credentials.id_token, google_requests.Request(), GOOGLE_CLIENT_ID
@@ -54,20 +54,32 @@ def callback():
         return render_template("error.html", message="Token inválido")
 
     google_id = id_info.get("sub")
+    email = id_info.get("email")
+
+    # 1. Buscamos por Google ID
     user = User.query.filter_by(google_id=google_id).first()
 
+    # 2. Si no existe, buscamos por EMAIL para evitar duplicados
+    # (segun gemini esto deberia dejarte logear, intenta con otro correo x si aca)
     if not user:
-        user = User(
-            google_id=google_id,
-            email=id_info.get("email"),
-            name=id_info.get("name"),
-            picture=id_info.get("picture"),
-        )
-        db.session.add(user)
-        db.session.commit()
+        user = User.query.filter_by(email=email).first()
+        
+        if user:
+            user.google_id = google_id
+            db.session.commit()
+        else:
+            # 3. Si no existe de ninguna forma, lo creamos
+            user = User(
+                google_id=google_id,
+                email=email,
+                name=id_info.get("name"),
+                picture=id_info.get("picture"),
+            )
+            db.session.add(user)
+            db.session.commit()
 
     session["user_id"] = user.id
-    return redirect(url_for("autenticacion.profile")) 
+    return redirect(url_for("autenticacion.profile"))
 
 @autenticacion_bp.route("/profile")
 def profile():
