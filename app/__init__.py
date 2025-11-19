@@ -8,15 +8,13 @@ def create_app():
     app = Flask(__name__)
 
     app.config["SECRET_KEY"] = os.environ.get("FLASK_SECRET_KEY")
+    
+    base_dir = os.path.abspath(os.path.dirname(__file__))
+    root_dir = os.path.dirname(base_dir)
 
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-
-    project_root = os.path.dirname(current_dir)
-
-    db_path = os.path.join(project_root, 'instance', 'users.db')
-
+    db_path = os.path.join(root_dir, 'instance', 'users.db')
     os.makedirs(os.path.dirname(db_path), exist_ok=True)
-
+    
     app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
 
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
