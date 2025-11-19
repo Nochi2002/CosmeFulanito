@@ -7,3 +7,4 @@ requests
 sqlalchemy
 flask_sqlalchemy
 boto3
+gunicorn
