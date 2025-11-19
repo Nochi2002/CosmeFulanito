@@ -13,7 +13,7 @@ autenticacion_bp = Blueprint('autenticacion', __name__, template_folder='templat
 # Configuración de Google OAUTH
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
-REDIRECT_URI = "http://127.0.0.1:5000/auth/callback" 
+REDIRECT_URI = os.environ.get("REDIRECT_URI", "http://127.0.0.1:5000/auth/callback")
 
 flow = Flow.from_client_config(
     client_config={
